@@ -2,54 +2,48 @@
  * 路由表配置管理
  */
 import React from 'react'
-import { Router, Route } from 'dva/router'
+import { Router, Route, Switch } from 'dva/router'
 
-//模块1—— 计数器模块
-import CountPage from './modules/counter/pages/CountPage'
+// demo 模块
+import { ModuleRouter as DemoRouter } from './modules/demo'
+//demo2模块
+import { ModuleRouter as Demo2Router } from './modules/demo2'
 
-import IndexPage from './routes/IndexPage'
+const RouterConfig = ({history, app}) => {
 
-//模块2—— 资讯模块
+  //监听路由变化
+  listenRouter(history)
 
-//模块3—— 用户账号管理模块
-import LoginPage from './modules/user/pages/LoginPage'
+  return (
+    <Router history={history}>
+      <Switch>
 
-//demo 模块
-import DemoBPage from './modules/demo/pages/DemoBPage/DemoBPage'
+        {/*Demo模块*/}
+        <Route path="/demo" component={DemoRouter}/>
+        {/*Demo2模块*/}
+        <Route path="/demo2" component={Demo2Router}/>
 
-const cached = {}
+        {/*404界面*/}
+        <Route component={() => {
+          return (<h1>404</h1>)
+        }}/>
 
-function registerModel(app, model) {
-  if (!cached[model.namespace]) {
-    app.model(model)
-    cached[model.namespace] = 1
-  }
+        {/*Error界面*/}
+        <Route path="" component={() => {
+          return (<h1>异常页面处理</h1>)
+        }}/>
+
+      </Switch>
+    </Router>
+  )
 }
 
-function RouterConfig({history, app}) {
-   const routes = [
-    {
-      path: '/',
-      name: 'DemoBPage',
-      getComponent(nextState, cb) {
-        require.ensure([], (require) => {
-          cb(null, DemoBPage);
-        });
-      },
-    },
-    {
-      path: '/users',
-      name: 'LoginPage',
-      getComponent(nextState, cb) {
-        require.ensure([], (require) => {
-          cb(null, LoginPage);
-        });
-      },
-    },
-  ];
-
-
-  return <Router history={history} routes={routes}/>
+function listenRouter(history) {
+  history.listen((e) => {
+    console.log('路由变化监听' + JSON.stringify(e) + '===' + JSON.stringify(history))
+    //进行页面打点，路由得有文字关联
+  })
 }
 
 export default RouterConfig
+

@@ -1,11 +1,10 @@
-import './index.css'
+// import './index.css'
+import React from 'react'
 import dva from 'dva'
+import 'antd/dist/antd.css'
 
 import AppModel from './AppModel'
 import RouterConfig from './RouterConfig'
-
-import 'antd/dist/antd.css';
-
 
 /**
  * 1.初始化 创建应用
@@ -18,7 +17,7 @@ import 'antd/dist/antd.css';
  */
 const app = dva({
   initialState: {
-    appName:'zzz'
+    appName: 'zzz'
   },
   /**
    * 统一处理应用异常逻辑
@@ -30,8 +29,6 @@ const app = dva({
 
   },
 })
-
-
 
 //2.添加插件
 app.use({})

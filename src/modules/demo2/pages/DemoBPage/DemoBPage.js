@@ -53,6 +53,15 @@ class DemoBPage extends Component {
       </div>
     )
   }
+
+  componentDidMount() {
+
+  }
+
+  componentWillUnmount() {
+
+  }
+
 }
 
 /**

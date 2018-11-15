@@ -5,7 +5,6 @@
 import React, { Component } from 'react'
 
 import { connect } from 'dva'
-
 import { Button } from 'antd'
 
 import UserHeaderComponent from './components/UserHeaderComponent'
@@ -13,13 +12,17 @@ import UserContentComponent from './components/UserContentComponent'
 import UserFooterComponent from './components/UserFooterComponent'
 import RouterUtils from '../../../../utils/RouterUtils'
 
-class DemoBPage extends Component {
+class DemoAPage extends Component {
+
+  componentWillMount() {
+    console.log(JSON.stringify(this.props))
+    console.log('获取到的参数：' + JSON.stringify(RouterUtils.getParams(this.props)))
+  }
 
   render() {
-    console.log(JSON.stringify(this.props))
     return (
       <div>
-        <h1>B</h1>
+        <h1>Demo A Page</h1>
         {/*头部*/}
         <UserHeaderComponent/>
         {/*内容*/}
@@ -29,9 +32,8 @@ class DemoBPage extends Component {
 
         <Button
           onClick={() => {
-            RouterUtils.push(this.props.history, '/demo-c')
-          }}
-        >
+            RouterUtils.push(this.props.history, '/demo-b')
+          }}>
           跳转到下一页
         </Button>
 
@@ -43,16 +45,18 @@ class DemoBPage extends Component {
           返回上一页
         </Button>
 
-        <Button
-          onClick={() => {
-            RouterUtils.goForward(this.props.history)
-          }}
-        >
-          向前前进一页
-        </Button>
       </div>
     )
   }
+
+  componentDidMount() {
+
+  }
+
+  componentWillUnmount() {
+
+  }
+
 }
 
 /**
@@ -74,4 +78,4 @@ const mapStateToProps = ({DemoBPageNameSpace}) => {
   return false
 }
 
-export default connect(mapStateToProps)(DemoBPage)
+export default DemoAPage
